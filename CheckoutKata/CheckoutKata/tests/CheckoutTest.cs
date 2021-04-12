@@ -6,9 +6,6 @@ using Xunit;
 
 namespace CheckoutKata
 {
-    
-   
-    
     public class CheckoutTest
     {
        
@@ -108,6 +105,82 @@ namespace CheckoutKata
             //assert
             //should be simple sum
             checkout.GetTotalPrice().Should().Be(100);
+        }
+        
+        
+        [Fact]
+        [Trait("Category","3 For £1")]
+        public void When_3For1Pound_With3Items_TotalIs1Pound()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 80},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new BuyXForValue(3, 100));
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(100);
+        }
+        [Fact]
+        [Trait("Category","3 For £1")]
+        public void When_3For1Pound_With5Items_TotalIs1PoundPlus2Items()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 80},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new BuyXForValue(3, 100));
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(230);
+        }
+        
+        [Fact]
+        [Trait("Category","3 For £1")]
+        public void When_3For1Pound_With2Items_RegularPriceApplied()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 80},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new BuyXForValue(3, 100));
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(130);
         }
     }
 }
