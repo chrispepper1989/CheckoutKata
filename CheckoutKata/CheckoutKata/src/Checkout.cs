@@ -7,19 +7,19 @@ namespace CheckoutKata
     
     class Checkout : ICheckout
     {
-        public Checkout( IUnitPriceCatalogue priceCatalogue, Func<int, int, int> winningPriceStrat)
+        public Checkout( Dictionary<string, int>  priceCatalogue, Func<int, int, int> winningPriceStrat)
         {
             _winningPriceStrat = winningPriceStrat;
             _priceCatalogue = priceCatalogue;
         }
         
-        public Checkout( IUnitPriceCatalogue priceCatalogue) : this(priceCatalogue, 
+        public Checkout( Dictionary<string, int>  priceCatalogue) : this(priceCatalogue, 
             (oldPrice, newPrice) => oldPrice < newPrice ? oldPrice : newPrice)   //assume lowest price wins as default
         { }
        
 
         private readonly Func<int, int, int> _winningPriceStrat;
-        private readonly IUnitPriceCatalogue _priceCatalogue;
+        private readonly Dictionary<string, int>  _priceCatalogue;
         
         private List<string> _items = new List<string>();
         
@@ -53,7 +53,7 @@ namespace CheckoutKata
 
         private int GetUnitPrice(string skuId)
         {
-            return _priceCatalogue.GetUnitPrice(skuId);
+            return _priceCatalogue[skuId];
         }
 
         private List<IPriceRule> GetPriceRules(string skuId)
