@@ -18,7 +18,13 @@ namespace CheckoutKata
                 {"Coke", 50},
                 {"Pepsi", 30}
             };
-            Checkout checkout = new Checkout(skuPrices);
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new RegularPrice());
+            skuPriceRules["Pepsi"] = new List<IPriceRule>();
+            skuPriceRules["Pepsi"].Add(new RegularPrice());
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
             
             //act
             checkout.Scan("Coke");
