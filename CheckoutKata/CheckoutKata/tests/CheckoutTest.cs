@@ -38,6 +38,7 @@ namespace CheckoutKata
                 new SKU(id:"Coke", unitPrice:50 ),
                 new SKU(id:"Pepsi", unitPrice:30 )
             };
+            
             //act
             checkout.Scan("Coke");
             checkout.Scan("Pepsi");
