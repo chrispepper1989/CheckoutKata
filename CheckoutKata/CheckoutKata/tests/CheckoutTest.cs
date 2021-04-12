@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace CheckoutKata
@@ -19,20 +20,30 @@ namespace CheckoutKata
             }
         }
 
+        class TestDictionaryBased : IUnitPriceCatalogue
+        {
+            private Dictionary<string, int> prices = new Dictionary<string, int>();
 
-        private Checkout checkout = new Checkout();
-
-            /*
-             * SKU	Unit Price	Special Price
-                A	50	3 for 130
-                B	30	2 for 45
-                C	20	
-                D	10	
-             */
+            TestDictionaryBased()
+            {
+                prices["Coke"] = 50;
+                prices["Pepsi"] = 30;
+            }
+            
+            public int GetUnitPrice(string sku)
+            {
+                return prices[sku];
+            }
+        }
+        private 
+       
         [Fact]
         public void When_NoSpecialBuy_TotalIsRegularPrice()
         {
             //arrange
+            Mock<IUnitPriceCatalogue> priceCatalogue = new Mock<IUnitPriceCatalogue>();
+            priceCatalogue.Setup(x => x.GetUnitPrice("Coke")).Returns(50);
+            Checkout checkout = new Checkout(priceCatalogue.Object);
             List<SKU> testData = new List<SKU>
             {
                 new SKU(id:"Coke", unitPrice:50 ),
