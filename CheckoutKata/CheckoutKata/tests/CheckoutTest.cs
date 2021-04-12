@@ -10,6 +10,7 @@ namespace CheckoutKata
     {
        
         [Fact]
+        [Trait("Category","RegularPrice")]
         public void When_NoSpecialBuy_TotalIsRegularPrice()
         {
             //arrange
@@ -34,6 +35,82 @@ namespace CheckoutKata
             //should be simple sum
             checkout.GetTotalPrice().Should().Be(80);
 
+        }
+        
+        
+        [Fact]
+        [Trait("Category","RegularPrice")]
+        public void When_OneItem_WithRegularPrice_TotalIsUnitPrice()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 50},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new RegularPrice()); //todo definitely feels like reg price should be added by default
+
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(50);
+        }
+        
+        [Fact]
+        [Trait("Category","BuyOneGetOneFree")]
+        public void When_BuyOneGetOneFree_With_2_Items_TotalIsHalf()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 50},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new RegularPrice()); 
+            skuPriceRules["Coke"].Add(new BuyOneGetOneFree());
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(50);
+        }
+        
+        [Fact]
+        [Trait("Category","BuyOneGetOneFree")]
+        public void When_BuyOneGetOneFree_With_3_Items_TotalIsHalfPlus1()
+        {
+            //arrange
+            var skuPrices = new Dictionary<string, int>() 
+            {
+                {"Coke", 50},
+            };
+            var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
+            skuPriceRules["Coke"] = new List<IPriceRule>();
+            skuPriceRules["Coke"].Add(new RegularPrice()); 
+            skuPriceRules["Coke"].Add(new BuyOneGetOneFree());
+         
+            Checkout checkout = new Checkout(skuPrices,skuPriceRules);
+            
+            //act
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            checkout.Scan("Coke");
+            
+            //assert
+            //should be simple sum
+            checkout.GetTotalPrice().Should().Be(100);
         }
     }
 }
