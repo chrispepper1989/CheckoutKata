@@ -7,6 +7,7 @@ namespace CheckoutKata
     
     class Checkout : ICheckout
     {
+
         //todo replace dictionaries with interfaces?
         public Checkout( Dictionary<string, int>  priceCatalogue, Dictionary<string, List<IPriceRule>> priceRules, Func<int, int, int> winningPriceStrat)
         {
@@ -19,7 +20,7 @@ namespace CheckoutKata
             (oldPrice, newPrice) => oldPrice < newPrice ? oldPrice : newPrice)   //assume lowest price wins as default
         { }
        
-
+        private readonly IEnumerable<IPriceRule> _defaultPriceRuleList = new List<RegularPrice>() {new RegularPrice()};
         private readonly Func<int, int, int> _winningPriceStrat;
         private readonly Dictionary<string, int>  _priceCatalogue;
         private readonly Dictionary<string, List<IPriceRule>>  _priceRules;
@@ -60,9 +61,14 @@ namespace CheckoutKata
             return _priceCatalogue[skuId];
         }
 
-        private List<IPriceRule> GetPriceRules(string skuId)
+        private IEnumerable<IPriceRule> GetPriceRules(string skuId)
         {
-            return _priceRules[skuId];
+            if(_priceRules.TryGetValue(skuId, out var list))
+            {
+                return list.Union(_defaultPriceRuleList);
+            }
+
+            return _defaultPriceRuleList;
         }
     }
 }

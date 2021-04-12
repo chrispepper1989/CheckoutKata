@@ -6,6 +6,9 @@ using Xunit;
 
 namespace CheckoutKata
 {
+    
+   
+    
     public class CheckoutTest
     {
        
@@ -20,10 +23,6 @@ namespace CheckoutKata
                 {"Pepsi", 30}
             };
             var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
-            skuPriceRules["Coke"] = new List<IPriceRule>();
-            skuPriceRules["Coke"].Add(new RegularPrice());
-            skuPriceRules["Pepsi"] = new List<IPriceRule>();
-            skuPriceRules["Pepsi"].Add(new RegularPrice());
          
             Checkout checkout = new Checkout(skuPrices,skuPriceRules);
             
@@ -59,7 +58,7 @@ namespace CheckoutKata
             
             //assert
             //should be simple sum
-            checkout.GetTotalPrice().Should().Be(50);
+            checkout.GetTotalPrice().Should().Be(100);
         }
         
         [Fact]
@@ -73,7 +72,6 @@ namespace CheckoutKata
             };
             var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
             skuPriceRules["Coke"] = new List<IPriceRule>();
-            skuPriceRules["Coke"].Add(new RegularPrice()); 
             skuPriceRules["Coke"].Add(new BuyOneGetOneFree());
          
             Checkout checkout = new Checkout(skuPrices,skuPriceRules);
@@ -84,7 +82,7 @@ namespace CheckoutKata
             
             //assert
             //should be simple sum
-            checkout.GetTotalPrice().Should().Be(100);
+            checkout.GetTotalPrice().Should().Be(50);
         }
         
         [Fact]
@@ -98,7 +96,6 @@ namespace CheckoutKata
             };
             var skuPriceRules = new Dictionary<string, List<IPriceRule>>();
             skuPriceRules["Coke"] = new List<IPriceRule>();
-            skuPriceRules["Coke"].Add(new RegularPrice()); 
             skuPriceRules["Coke"].Add(new BuyOneGetOneFree());
          
             Checkout checkout = new Checkout(skuPrices,skuPriceRules);
