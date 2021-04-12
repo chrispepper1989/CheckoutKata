@@ -1,5 +1,6 @@
 ﻿namespace CheckoutKata
 {
+    //todo make generic
     class BuyOneGetOneFree  : IPriceRule
     {
         public int GetPrice(int unitPrice, int unitCount)

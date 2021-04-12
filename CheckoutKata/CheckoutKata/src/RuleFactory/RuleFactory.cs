@@ -2,16 +2,7 @@
 
 namespace CheckoutKata
 {
-    public enum RuleEnum
-    {
-        BuyOneGetOneFree,
-        RegularPrice
-    }
-    public interface IRuleFactory
-    {
-        List<IPriceRule> GetDefaultRules();
-        IPriceRule GetPriceRule(RuleEnum rule);
-    }
+    //todo tests and how would this work with generic price rules e.g. Buy X get Y
     public class RuleFactory : IRuleFactory
     {
         public List<IPriceRule> GetDefaultRules()
