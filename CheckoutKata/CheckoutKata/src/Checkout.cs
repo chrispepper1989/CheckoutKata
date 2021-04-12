@@ -40,15 +40,16 @@ namespace CheckoutKata
                 var skuId = skuGroup.Key;
                 var skuUnitPrice = GetUnitPrice(skuId);
                 var skuNumberOfUnits = skuGroup.Count();
-                var itemPrice = GetPriceRules(skuId);
+                var priceRules = GetPriceRules(skuId);
                 int best = int.MaxValue; 
                 
-                foreach (var priceRule in itemPrice)
+                foreach (var priceRule in priceRules)
                 {
                     var newPrice = priceRule.GetPrice(unitPrice: skuUnitPrice, unitCount: skuNumberOfUnits);
                     best = _winningPriceStrat(best, newPrice);
-                    totalPrice += best;
                 }
+                
+                totalPrice += best;
             }
             
             return totalPrice;

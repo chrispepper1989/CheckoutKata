@@ -84,7 +84,7 @@ namespace CheckoutKata
             
             //assert
             //should be simple sum
-            checkout.GetTotalPrice().Should().Be(50);
+            checkout.GetTotalPrice().Should().Be(100);
         }
         
         [Fact]
