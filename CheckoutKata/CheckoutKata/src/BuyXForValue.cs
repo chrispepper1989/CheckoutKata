@@ -13,7 +13,12 @@
         
         public int GetPrice(int unitPrice, int unitCount)
         {
-            return 0;
+            int nOutSideOfOfer = unitCount % x_UnitTrigger;
+            int nInsideOfOffer = unitCount/x_UnitTrigger;
+
+            var outSideOfferTotal = nOutSideOfOfer * unitPrice;
+            var insideOfferTotal = nInsideOfOffer * y_specialUnitPrice;
+            return outSideOfferTotal + insideOfferTotal;
         }
     }
 }

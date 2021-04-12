@@ -156,7 +156,7 @@ namespace CheckoutKata
             
             //assert
             //should be simple sum
-            checkout.GetTotalPrice().Should().Be(230);
+            checkout.GetTotalPrice().Should().Be(260);
         }
         
         [Fact]
@@ -180,7 +180,7 @@ namespace CheckoutKata
 
             //assert
             //should be simple sum
-            checkout.GetTotalPrice().Should().Be(130);
+            checkout.GetTotalPrice().Should().Be(160);
         }
     }
 }
